@@ -9,17 +9,11 @@ const Register=(props)=>{
         history.push("/login")
     }
     useEffect(() => {
-    axios.get("https://reqres.in/api/users?page=2", {
-        headers: {
-        "x-api-key": "reqres-free-v1"
-        }
-    })
+    axios.get("http://localhost:8080/api/test-api")
     .then(data => {
         console.log(">>> check data axios:", data);
-    })
-    .catch(error => {
-        console.error(">>> error axios:", error);
     });
+
     }, []);
     return(
         <div className="register-container">
