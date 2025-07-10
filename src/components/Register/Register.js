@@ -10,33 +10,46 @@ const Register=(props)=>{
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
     const[confirmPassword,setConfirmPassword]=useState("");
+    const defaultValidInput={
+        isValidEmail: true,
+        isValidPassword: true,
+        isValidConfirmPassword: true
+    }
+    const[objCheckInput, setObjCheckInput]=useState(defaultValidInput)
 
     let history=useHistory();
     const handleLogin=()=>{
         history.push("/login")
     }
     useEffect(() => {
-    // axios.get("http://localhost:8080/api/test-api")
+    // axios.get("http://localhost:8080/api/v1/test-api")
     // .then(data => {
     //     console.log(">>> check data axios:", data);
     // });
 
     }, []);
     const isValidInputs =() => {
+        setObjCheckInput(defaultValidInput);
         if(!email){
             toast.error("Email is required");
+            setObjCheckInput({ ...defaultValidInput, isValidEmail: false});
             return false;
         }
-        if(!phone){
-            toast.error("Phone is required");
+
+        let regx =/\S+@\S+\.\S+/
+        if(!regx.test(email)){
+            toast.error("Please enter avalid email address");
+            setObjCheckInput({ ...defaultValidInput, isValidEmail: false});
             return false;
         }
         if(!password){
             toast.error("Password is required");
+            setObjCheckInput({ ...defaultValidInput, isValidPassword: false});
             return false;
         }
         if(password!=confirmPassword){
             toast.error("Your password is not the same");
+            setObjCheckInput({ ...defaultValidInput, isValidConfirmPassword: false});
             return false;
         }
 
@@ -45,10 +58,13 @@ const Register=(props)=>{
     }
     const handleRegister=()=>{
         let check=isValidInputs();
-
-        let userData={email,phone,username,password};
-        console.log(">>>check user data:",userData)
+        if (check === true){
+                axios.post("http://localhost:8080/api/v1/register",{
+                email, phone, username, password
+        })
+        }
     }
+
     return(
         <div className="register-container">
             <div className="container">
@@ -67,7 +83,7 @@ const Register=(props)=>{
                         </div>
                         <div className='form-group'>
                             <label>Email:</label>
-                            <input type="text" className='form-control' placeholder='Email address'
+                            <input type="text" className={objCheckInput.isValidEmail ? 'form-control' : 'form-control is-invalid'} placeholder='Email address'
                                 value={email} onChange={(event) => setEmail(event.target.value)}
                             />
                         </div>
@@ -85,13 +101,13 @@ const Register=(props)=>{
                         </div>
                         <div className='form-group'>
                             <label>Password:</label>
-                            <input type="text" className='form-control' placeholder='Password'
+                            <input type="text" className={objCheckInput.isValidPassword ? 'form-control' : 'form-control is-invalid'} placeholder='Password'
                                 value={password} onChange={(event) => setPassword(event.target.value)}
                             />
                         </div>                        
                         <div className='form-group'>
                             <label>Re-enter password:</label>
-                            <input type="text" className='form-control' placeholder=' Re-enter password'
+                            <input type="text" className={objCheckInput.isValidConfirmPassword ? 'form-control' : 'form-control is-invalid'} placeholder=' Re-enter password'
                                 value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)}
                             />
                         </div>                    
