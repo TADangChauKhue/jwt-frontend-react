@@ -23,7 +23,7 @@ const Login=(props)=>{
                         <div className='brand d-sm-none '>
                             VCSI Learning
                         </div>
-                        <input type="text" className='form-control' placeholder='Email address or phone number'/>
+                        <input type="text" className='form-control' placeholder='Email address'/>
                         <input type="password" className='form-control' placeholder='Password'/>
                         <button className='btn btn-primary'>Login</button>
                         <span className='text-center'>
