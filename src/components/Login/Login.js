@@ -40,6 +40,7 @@ const Login=(props)=>{
             } 
             sessionStorage.setItem('account',JSON.stringify(data));
             history.push('/users');
+            window.location.reload();
             // redux
 
         }
@@ -48,6 +49,13 @@ const Login=(props)=>{
             toast.error(response.data.EM)
         }       
         console.log (">>>check response",response.data)
+    }
+    const handlePressEnter =(event)=>{
+        console.log(">>>check", event.code)
+        if(event.code ==="Enter") {
+           handleLogin();
+        }
+            
     }
 
     return(
@@ -79,6 +87,7 @@ const Login=(props)=>{
                             placeholder='Password'
                             value={password}
                             onChange={(event)=>{setPassword(event.target.value)}}
+                            onKeyPress ={(event)=> handlePressEnter(event)}
                         />
                         <button className='btn btn-primary' onClick={()=>handleLogin()}>Login</button>
                         <span className='text-center'>
