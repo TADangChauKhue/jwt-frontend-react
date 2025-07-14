@@ -31,7 +31,23 @@ const Login=(props)=>{
             toast.error("Please enter your password")
             return;
         }
-        await loginUser(valueLogin, password);
+        let response = await loginUser(valueLogin, password);
+        if(response && response.data && +response.data.EC === 0){
+            // success
+            let data ={
+                isAuthenticated:true,
+                token:'fake token'
+            } 
+            sessionStorage.setItem('account',JSON.stringify(data));
+            history.push('/users');
+            // redux
+
+        }
+         if(response && response.data && +response.data.EC !== 0){
+            // error
+            toast.error(response.data.EM)
+        }       
+        console.log (">>>check response",response.data)
     }
 
     return(

@@ -4,19 +4,33 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+
 } from "react-router-dom";
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Users from './components/ManageUsers/Users';
+import Nav from './components/Navigation/Nav';
+import{useEffect,useState} from 'react';
+import _ from "lodash";
+
 
 
 function App() {
+  const [account,setAccount] = useState({});
+  useEffect(()=>{
+    let session = sessionStorage.getItem('account');
+    if(session){
+      setAccount(JSON.parse(session));
+    }
+  },[]);
   return (
   <Router>
     <div className ='app-container'> 
-      {/* <Nav /> */}
+    {account && !_.isEmpty(account) && account.isAuthenticated && <Nav />
+    }
+
       <Switch>
           <Route path="/news">
             news
@@ -32,6 +46,9 @@ function App() {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/users">
+            <Users />
           </Route>
           <Route path="/" exact>
             home
