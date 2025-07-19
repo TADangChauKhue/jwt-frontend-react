@@ -5,7 +5,6 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Nav from './components/Navigation/Nav';
 import{useEffect,useState} from 'react';
-import _ from "lodash";
 import AppRoutes from './routes/AppRoutes';
 
 function App() {
