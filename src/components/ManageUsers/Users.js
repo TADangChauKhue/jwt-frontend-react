@@ -2,12 +2,16 @@ import {useState, useEffect} from "react";
 import './Users.scss';
 import { fetchAllUser } from "../../services/userServices";
 import ReactPaginate from 'react-paginate';
-
+import { deleteUser } from '../../services/userServices';
+import{ toast } from "react-toastify";
+import ModalDelete from "./ModalDelete";
 const Users = (props) => {
     const [listUsers,setListUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [currentLimit,setCurrentLimit] = useState(2);
     const[totalPages,setTotalPages]=useState(0);
+    const[isShowModalDelete,setIsShowModalDelete]=useState(false);
+    const[dataModal,setDataModal]=useState({});
     useEffect(()=>{
             fetchUsers();
     },[currentPage])
@@ -25,7 +29,27 @@ const Users = (props) => {
         setCurrentPage(+event.selected +1);
         // await fetchUsers(+event.selected +1);
     };
+    const handleDeleteUser = async(user)=>{
+        setDataModal(user);
+        setIsShowModalDelete(true)
+  
+    }
+    const handleClose=()=>{
+        setIsShowModalDelete(false)
+        setDataModal({});
+        }
+    const confirmDeleteUser=async() =>{
+      let response = await deleteUser(dataModal)
+        if(response && response.data.EC === 0){
+            toast.success(response.data.EM);
+            await fetchUsers();
+            setIsShowModalDelete(false)
+        }else{
+            toast.error(response.data.EM);
+        }
+    }
     return (
+        <>
         <div className="container">
         <div className="manage-users-container">
             <div className="user-header">
@@ -59,8 +83,10 @@ const Users = (props) => {
                                 <td>{item.username}</td>
                                 <td>{item.Group ? item.Group.name : ''}</td>
                                 <td>
-                                    <button className="btn btn-warning">Edit</button>
-                                    <button className="btn btn-danger">Delete</button>
+                                    <button className="btn btn-warning mx-3">Edit</button>
+                                    <button className="btn btn-danger"
+                                        onClick={()=>handleDeleteUser(item)}
+                                    >Delete</button>
                                 </td>
                             </tr>
                             ))
@@ -98,6 +124,14 @@ const Users = (props) => {
             }
             </div>
         </div>
+        <ModalDelete
+            show={isShowModalDelete}
+            handleClose={handleClose}
+            confirmDeleteUser={confirmDeleteUser}
+            dataModal={dataModal}
+           
+        />
+        </>
 
     )
 }
