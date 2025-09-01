@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import React,{useState, useEffect} from "react";
 import './Users.scss';
 import { fetchAllUser } from "../../services/userServices";
 import ReactPaginate from 'react-paginate';
@@ -6,6 +6,8 @@ import { deleteUser } from '../../services/userServices';
 import{ toast } from "react-toastify";
 import ModalDelete from "./ModalDelete";
 import ModalUser from"./ModalUser";
+
+
 const Users = (props) => {
     const [listUsers,setListUsers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
@@ -24,10 +26,14 @@ const Users = (props) => {
 
     useEffect(()=>{
             fetchUsers();
+
             // let c = document.cookie.split(";").reduce( (ac, cv, i) => Object.assign(ac, {[cv.split('=')[0]]: cv.split('=')[1]}), {});
             // console.log(c);
     },[currentPage])
+
     const fetchUsers =async(page) =>{
+   
+
         let response = await fetchAllUser(currentPage,currentLimit);
         console.log(">>>check res:",response)
         if (response && response.EC === 0){
