@@ -8,13 +8,7 @@ import{useEffect,useState} from 'react';
 import AppRoutes from './routes/AppRoutes';
 
 function App() {
-  const [account,setAccount] = useState({});
-  useEffect(()=>{
-    let session = sessionStorage.getItem('account');
-    if(session){
-      setAccount(JSON.parse(session));
-    }
-  },[]);
+
   return (
   <Router>
     <div className='app-header'>
