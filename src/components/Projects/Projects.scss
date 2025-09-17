@@ -1,0 +1,23 @@
+.projects-container {
+  i {
+    padding-right: 7px;
+  }
+
+  .actions {
+    .refresh {
+      min-width: 140px;
+    }
+  }
+
+  .projects-body {
+    .empty-message {
+      color: #6c757d;
+    }
+  }
+
+  .projects-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 1rem;
+  }
+}
