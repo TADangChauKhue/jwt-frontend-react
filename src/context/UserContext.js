@@ -1,19 +1,23 @@
 //Centralize authentification 
 import React,{useState, useEffect} from 'react';
 import{getUserAccount} from '../services/userServices';
+
+
 const UserContext = React.createContext(null);
 const UserProvider =({children})=>{
+
     // User is the name of the "data" that gets stored in context
-    const [user, setUser] = useState(
-        {
-            isAuthenticated:false,
-            "token":"",
-             account:{}
-        });
+    const userDefault =  {   
+        isLoading:true,
+        isAuthenticated:false,
+        token:"",
+        account:{}
+    }
+    const [user, setUser] = useState(userDefault);
 
     // Login updates the user data with a name parameter
     const loginContext = (userData) => {
-    setUser(userData) 
+    setUser({...userData, isLoading:false}) 
     
     };
 
@@ -36,14 +40,22 @@ const UserProvider =({children})=>{
             let data ={
                 isAuthenticated:true,
                 token,
-                account:{groupWithRoles, email, username}
+                account:{groupWithRoles, email, username},
+                isLoading:false
             } 
-            setUser(data);
+                setUser(data);
+            }else{
+            
+                setUser({...userDefault, isLoading:false})
+                          
         }
 
     }
     useEffect(()=>{
-        fetchUser()
+        if(window.location.pathname !=='/' || window.location.pathname !=='/login') {
+            fetchUser()
+        }
+            
     },[])
 
     return (
