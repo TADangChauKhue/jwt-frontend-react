@@ -1,4 +1,3 @@
-
 import {
   Switch,
   Route,
@@ -6,6 +5,7 @@ import {
 import Login from '../components/Login/Login';
 import Register from '../components/Register/Register';
 import Users from '../components/ManageUsers/Users';
+import ProjectsList from '../components/Projects/ProjectsList';
 import PrivateRoutes from "./PrivateRoutes";
 
 

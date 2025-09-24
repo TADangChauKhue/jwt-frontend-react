@@ -3,7 +3,7 @@ import './App.scss';
 import {BrowserRouter as Router} from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Nav from './components/Navigation/Nav';
+import NavHeader from './components/Navigation/NavHeader';
 import{useEffect,useState, useContext} from 'react';
 import AppRoutes from './routes/AppRoutes';
 import {Rings} from 'react-loader-spinner';
@@ -27,7 +27,7 @@ function App() {
       :
       <>
       <div className='app-header'>
-          <Nav />
+          <NavHeader />
       </div>
 
       <div className ='app-container'> 
